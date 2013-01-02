@@ -14,8 +14,6 @@ module Cawcaw
         params[:label_warning] ||= 5000000
         params[:label_critical] ||= 5000000
         
-        params[:hadoop_command] ||= "hadoop"
-        
         if params[:stdin_flag]
           hdfs_paths = []
           while line = input_stream.gets
@@ -33,6 +31,15 @@ module Cawcaw
         if hdfs_paths == []
           Cawcaw.logger.error("hdfs-path is not set")
           return 1
+        end
+        
+        absolute_hdfs_paths = {}
+        hdfs_paths.each do |hdfs_path|
+          if /^\// =~ hdfs_path
+            absolute_hdfs_paths[hdfs_path] = hdfs_path
+          else
+            absolute_hdfs_paths[hdfs_path] = "#{params[:hadoop_working_directory]}/#{hdfs_path}"
+          end
         end
         
         case command
@@ -61,14 +68,20 @@ graph_info #{params[:graph_info]}
             label_draw = "STACK"
           end
         else
-          result = `#{params[:hadoop_command]} dfs -dus #{hdfs_paths.join(" ")}`
-          hdfs_size_hash = {}
-          result = result.split(/\r?\n/).map{|line|line.split(/\s+/)}
-          result.each do |record|
+          result = `#{params[:hadoop_command]} dfs -dus #{hdfs_paths.map{|hdfs_path|absolute_hdfs_paths[hdfs_path]}.join(" ")}`
+          # STDERR.puts result
+          hdfs_sizes = {}
+          result.split(/\r?\n/).each do |line|
+            record = line.split(/\s+/)
             hdfs_uri = record[0]
-            hdfs_size = record[1]
             hdfs_uri = URI.parse(hdfs_uri)
-            label = hdfs_uri.path.gsub(/[^a-zA-Z0-9]/, "_").downcase
+            hdfs_sizes[hdfs_uri.path] = record[1]
+          end
+          # STDERR.puts hdfs_sizes.inspect
+          
+          hdfs_paths.each do |hdfs_path|
+            hdfs_size = hdfs_sizes[absolute_hdfs_paths[hdfs_path]]
+            label = hdfs_path.gsub(/[^a-zA-Z0-9]/, "_").downcase
             output_stream.puts "#{label}.value #{hdfs_size}"
           end
         end
