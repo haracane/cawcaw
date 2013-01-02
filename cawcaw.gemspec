@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = "cawcaw"
-  s.version = "0.0.2"
+  s.version = "0.0.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kenji Hara"]
@@ -26,12 +26,15 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "bin/cawcaw",
+    "cawcaw.gemspec",
     "lib/cawcaw.rb",
     "lib/cawcaw/command/hadoop.rb",
     "lib/cawcaw/command/hadoop/dfs.rb",
     "lib/cawcaw/command/rabbitmq.rb",
     "lib/cawcaw/command/rabbitmq/queue_count.rb",
     "lib/cawcaw/core/common.rb",
+    "spec/bin/cawcaw/hadoop/dfs_spec.rb",
+    "spec/bin/cawcaw/rabbitmq/queue_count_spec.rb",
     "spec/lib/cawcaw_spec.rb",
     "spec/spec_helper.rb"
   ]
@@ -45,7 +48,7 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<bunnish>, [">= 0.1.0"])
+      s.add_runtime_dependency(%q<bunnish>, [">= 0.1.2"])
       s.add_development_dependency(%q<rspec>, [">= 2.8.0"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_development_dependency(%q<bundler>, [">= 1.0.0"])
@@ -55,7 +58,7 @@ Gem::Specification.new do |s|
       s.add_development_dependency(%q<ci_reporter>, [">= 1.7.0"])
       s.add_development_dependency(%q<flog>, [">= 3.2.0"])
     else
-      s.add_dependency(%q<bunnish>, [">= 0.1.0"])
+      s.add_dependency(%q<bunnish>, [">= 0.1.2"])
       s.add_dependency(%q<rspec>, [">= 2.8.0"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
       s.add_dependency(%q<bundler>, [">= 1.0.0"])
@@ -66,7 +69,7 @@ Gem::Specification.new do |s|
       s.add_dependency(%q<flog>, [">= 3.2.0"])
     end
   else
-    s.add_dependency(%q<bunnish>, [">= 0.1.0"])
+    s.add_dependency(%q<bunnish>, [">= 0.1.2"])
     s.add_dependency(%q<rspec>, [">= 2.8.0"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
     s.add_dependency(%q<bundler>, [">= 1.0.0"])
