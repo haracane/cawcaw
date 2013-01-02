@@ -7,6 +7,10 @@ module Cawcaw
         graph_vlabel = nil
         graph_category = nil
         graph_info = nil
+        
+        hadoop_working_directory = "/user/#{ENV["USER"]}"
+        hadoop_command = "hadoop"
+        
         stdin_flag = false
         verbose_flag = false
         
@@ -31,6 +35,9 @@ module Cawcaw
             label_critical = argv.shift.to_i
           when "--hadoop-command"
             hadoop_command = argv.shift
+          when "--hadoop-wdir"
+            hadoop_working_directory = argv.shift
+            hadoop_working_directory = hadoop_working_directory.gsub(/\/$/, "")
           when "--stdin"
             stdin_flag = true
           when "--verbose"
@@ -56,6 +63,7 @@ module Cawcaw
           :label_warning=>label_warning,
           :label_critical=>label_critical,
           :hadoop_command=>hadoop_command,
+          :hadoop_working_directory=>hadoop_working_directory,
           :stdin_flag=>stdin_flag,
           :verbose_flag=>verbose_flag
         }
