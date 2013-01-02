@@ -71,10 +71,9 @@ graph_info #{params[:graph_info]}
           # start a communication session with the amqp server
           bunny.start
           
-          queue_names.each do |queue_name|
-            # create/get queue
-            queue = bunny.queue(queue_name, :durable=>durable)
-            message_count = queue.status[:message_count]
+          queue_message_counts = bunny.queue_message_counts(queue_names, :durable=>durable)
+          
+          queue_message_counts.each_pair do |queue_name, message_count|
             label = queue_name.gsub(/[^a-zA-Z0-9]/, "_").downcase
             output_stream.puts "#{label}.value #{message_count}"
           end
