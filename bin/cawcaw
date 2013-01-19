@@ -9,6 +9,8 @@ exit_code = 0
 case command
 when "hadoop"
   exit_code = Cawcaw::Command::Hadoop.run(ARGV) || 0
+when "postgresql"
+  exit_code = Cawcaw::Command::Postgresql.run(ARGV) || 0
 when "rabbitmq"
   exit_code = Cawcaw::Command::Rabbitmq.run(ARGV) || 0
 else

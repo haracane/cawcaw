@@ -2,71 +2,47 @@ module Cawcaw
   module Core
     module Common
       def self.parse_opts(argv)
-        graph_title = nil
-        graph_args = nil
-        graph_vlabel = nil
-        graph_category = nil
-        graph_info = nil
+        ret = {}
         
-        hadoop_working_directory = "/user/#{ENV["USER"]}"
-        hadoop_command = "hadoop"
+        ret[:hadoop_working_directory] = "/user/#{ENV["USER"]}"
+        ret[:hadoop_command] = "hadoop"
         
-        stdin_flag = false
-        verbose_flag = false
+        ret[:stdin_flag] = false
+        ret[:verbose_flag] = false
         
         next_argv = []
         
         while 0 < argv.size do
           val = argv.shift
-          case val
-          when "--graph-title"
-            graph_title = argv.shift
-          when "--graph-args"
-            graph_args = argv.shift
-          when "--graph-vlabel"
-            graph_vlabel = argv.shift
-          when "--graph-category"
-            graph_category = argv.shift
-          when "--graph-info"
-            graph_info = argv.shift
-          when "--label-warning"
-            label_warning = argv.shift.to_i
-          when "--label-critical"
-            label_critical = argv.shift.to_i
-          when "--hadoop-command"
-            hadoop_command = argv.shift
-          when "--hadoop-wdir"
+          if val[0..1] == "--"
+            label = val[2..-1].gsub(/-/,"_").to_sym
+          else
+            label = nil
+          end
+          case label
+          when :graph_title, :graph_args, :graph_vlabel, :graph_category, :graph_info, \
+               :hadoop_command, :adapter, :host, :database, :username, :password, :encoding
+            ret[label] = argv.shift
+          when :label_warning, :label_critical, :port
+            ret[label] = ret[label].to_i
+          when :stdin, :verbose, :stats
+            ret["#{label}_flag".to_sym] = true
+          when :hadoop_wdir
             hadoop_working_directory = argv.shift
-            hadoop_working_directory = hadoop_working_directory.gsub(/\/$/, "")
-          when "--stdin"
-            stdin_flag = true
-          when "--verbose"
-            verbose_flag = true
+            ret[:hadoop_working_directory] = hadoop_working_directory.gsub(/\/$/, "")
           else
             next_argv.push val
           end
         end
         argv.push(*next_argv)
         
-        if verbose_flag then
+        if ret[:verbose_flag] then
           Cawcaw.logger.level = Logger::INFO
         else
           Cawcaw.logger.level = Logger::WARN
         end
         
-        return {
-          :graph_title=>graph_title,
-          :graph_args=>graph_args,
-          :graph_vlabel=>graph_vlabel,
-          :graph_category=>graph_category,
-          :graph_info=>graph_info,
-          :label_warning=>label_warning,
-          :label_critical=>label_critical,
-          :hadoop_command=>hadoop_command,
-          :hadoop_working_directory=>hadoop_working_directory,
-          :stdin_flag=>stdin_flag,
-          :verbose_flag=>verbose_flag
-        }
+        return ret
       end
     end
   end

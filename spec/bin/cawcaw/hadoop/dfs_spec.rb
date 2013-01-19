@@ -10,7 +10,7 @@ describe "bin/cawcaw hadoop dfs" do
   end
   context "when hdfs path is absolute" do
     it "should output hadoop dfs config" do
-      result = `#{Cawcaw::RUBY_CMD} #{Cawcaw::BIN_DIR}/cawcaw hadoop dfs /user/#{ENV["USER"]}/cawcaw-test config`
+      result = `ruby -I lib ./bin/cawcaw hadoop dfs /user/#{ENV["USER"]}/cawcaw-test config`
       hash = {}
       result.split(/\r?\n/).each do |line|
         record = line.split(/ /, 2)
@@ -31,7 +31,7 @@ describe "bin/cawcaw hadoop dfs" do
     end
   
     it "should output hadoop dfs value" do
-      result = `#{Cawcaw::RUBY_CMD} #{Cawcaw::BIN_DIR}/cawcaw hadoop dfs /user/#{ENV["USER"]}/cawcaw-test`
+      result = `ruby -I lib ./bin/cawcaw hadoop dfs /user/#{ENV["USER"]}/cawcaw-test`
       hash = {}
       result.split(/\r?\n/).each do |line|
         record = line.split(/ /, 2)
@@ -45,7 +45,7 @@ describe "bin/cawcaw hadoop dfs" do
   context "when hdfs path is relative" do
     context "with hadoop-wdir option" do
       it "should output hadoop dfs config" do
-        result = `#{Cawcaw::RUBY_CMD} #{Cawcaw::BIN_DIR}/cawcaw hadoop dfs --hadoop-wdir /user #{ENV["USER"]}/cawcaw-test config`
+        result = `ruby -I lib ./bin/cawcaw hadoop dfs --hadoop-wdir /user #{ENV["USER"]}/cawcaw-test config`
         hash = {}
         result.split(/\r?\n/).each do |line|
           record = line.split(/ /, 2)
@@ -66,7 +66,7 @@ describe "bin/cawcaw hadoop dfs" do
       end
     
       it "should output hadoop dfs value" do
-        result = `#{Cawcaw::RUBY_CMD} #{Cawcaw::BIN_DIR}/cawcaw hadoop dfs --hadoop-wdir /user #{ENV["USER"]}/cawcaw-test`
+        result = `ruby -I lib ./bin/cawcaw hadoop dfs --hadoop-wdir /user #{ENV["USER"]}/cawcaw-test`
         hash = {}
         result.split(/\r?\n/).each do |line|
           record = line.split(/ /, 2)
@@ -80,7 +80,7 @@ describe "bin/cawcaw hadoop dfs" do
     
     context "without hadoop-wdir option" do
       it "should output hadoop dfs config" do
-        result = `#{Cawcaw::RUBY_CMD} #{Cawcaw::BIN_DIR}/cawcaw hadoop dfs cawcaw-test config`
+        result = `ruby -I lib ./bin/cawcaw hadoop dfs cawcaw-test config`
         hash = {}
         result.split(/\r?\n/).each do |line|
           record = line.split(/ /, 2)
@@ -101,7 +101,7 @@ describe "bin/cawcaw hadoop dfs" do
       end
     
       it "should output hadoop dfs value" do
-        result = `#{Cawcaw::RUBY_CMD} #{Cawcaw::BIN_DIR}/cawcaw hadoop dfs cawcaw-test`
+        result = `ruby -I lib ./bin/cawcaw hadoop dfs cawcaw-test`
         hash = {}
         result.split(/\r?\n/).each do |line|
           record = line.split(/ /, 2)
