@@ -5,24 +5,24 @@
 
 Gem::Specification.new do |s|
   s.name = "cawcaw"
-  s.version = "0.0.3"
+  s.version = "0.1.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Kenji Hara"]
-  s.date = "2013-01-02"
+  s.date = "2013-01-19"
   s.description = "cawcaw RubyGem"
   s.email = "haracane@gmail.com"
   s.executables = ["cawcaw"]
   s.extra_rdoc_files = [
     "LICENSE.txt",
-    "README.rdoc"
+    "README.md"
   ]
   s.files = [
     ".document",
     ".rspec",
     "Gemfile",
     "LICENSE.txt",
-    "README.rdoc",
+    "README.md",
     "Rakefile",
     "VERSION",
     "bin/cawcaw",
@@ -30,10 +30,13 @@ Gem::Specification.new do |s|
     "lib/cawcaw.rb",
     "lib/cawcaw/command/hadoop.rb",
     "lib/cawcaw/command/hadoop/dfs.rb",
+    "lib/cawcaw/command/postgresql.rb",
+    "lib/cawcaw/command/postgresql/table.rb",
     "lib/cawcaw/command/rabbitmq.rb",
     "lib/cawcaw/command/rabbitmq/queue_count.rb",
     "lib/cawcaw/core/common.rb",
     "spec/bin/cawcaw/hadoop/dfs_spec.rb",
+    "spec/bin/cawcaw/postgresql/table_spec.rb",
     "spec/bin/cawcaw/rabbitmq/queue_count_spec.rb",
     "spec/lib/cawcaw_spec.rb",
     "spec/spec_helper.rb"
@@ -48,35 +51,47 @@ Gem::Specification.new do |s|
     s.specification_version = 3
 
     if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
-      s.add_runtime_dependency(%q<bunnish>, [">= 0.1.2"])
-      s.add_development_dependency(%q<rspec>, [">= 2.8.0"])
+      s.add_runtime_dependency(%q<activerecord>, ["~> 3.2.11"])
+      s.add_runtime_dependency(%q<activerecord-postgresql-adapter>, ["~> 0.0.1"])
+      s.add_runtime_dependency(%q<bunnish>, ["~> 0.1.2"])
+      s.add_development_dependency(%q<rspec>, ["~> 2.12.0"])
+      s.add_development_dependency(%q<yard>, ["~> 0.8.3"])
+      s.add_development_dependency(%q<redcarpet>, ["~> 2.2.2"])
       s.add_development_dependency(%q<rdoc>, ["~> 3.12"])
-      s.add_development_dependency(%q<bundler>, [">= 1.0.0"])
+      s.add_development_dependency(%q<bundler>, ["~> 1.2.3"])
       s.add_development_dependency(%q<jeweler>, ["~> 1.8.4"])
-      s.add_development_dependency(%q<simplecov>, [">= 0"])
-      s.add_development_dependency(%q<simplecov-rcov>, [">= 0"])
-      s.add_development_dependency(%q<ci_reporter>, [">= 1.7.0"])
+      s.add_development_dependency(%q<simplecov>, ["~> 0.7.1"])
+      s.add_development_dependency(%q<simplecov-rcov>, ["~> 0.2.3"])
+      s.add_development_dependency(%q<ci_reporter>, ["~> 1.8.3"])
       s.add_development_dependency(%q<flog>, [">= 3.2.0"])
     else
-      s.add_dependency(%q<bunnish>, [">= 0.1.2"])
-      s.add_dependency(%q<rspec>, [">= 2.8.0"])
+      s.add_dependency(%q<activerecord>, ["~> 3.2.11"])
+      s.add_dependency(%q<activerecord-postgresql-adapter>, ["~> 0.0.1"])
+      s.add_dependency(%q<bunnish>, ["~> 0.1.2"])
+      s.add_dependency(%q<rspec>, ["~> 2.12.0"])
+      s.add_dependency(%q<yard>, ["~> 0.8.3"])
+      s.add_dependency(%q<redcarpet>, ["~> 2.2.2"])
       s.add_dependency(%q<rdoc>, ["~> 3.12"])
-      s.add_dependency(%q<bundler>, [">= 1.0.0"])
+      s.add_dependency(%q<bundler>, ["~> 1.2.3"])
       s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
-      s.add_dependency(%q<simplecov>, [">= 0"])
-      s.add_dependency(%q<simplecov-rcov>, [">= 0"])
-      s.add_dependency(%q<ci_reporter>, [">= 1.7.0"])
+      s.add_dependency(%q<simplecov>, ["~> 0.7.1"])
+      s.add_dependency(%q<simplecov-rcov>, ["~> 0.2.3"])
+      s.add_dependency(%q<ci_reporter>, ["~> 1.8.3"])
       s.add_dependency(%q<flog>, [">= 3.2.0"])
     end
   else
-    s.add_dependency(%q<bunnish>, [">= 0.1.2"])
-    s.add_dependency(%q<rspec>, [">= 2.8.0"])
+    s.add_dependency(%q<activerecord>, ["~> 3.2.11"])
+    s.add_dependency(%q<activerecord-postgresql-adapter>, ["~> 0.0.1"])
+    s.add_dependency(%q<bunnish>, ["~> 0.1.2"])
+    s.add_dependency(%q<rspec>, ["~> 2.12.0"])
+    s.add_dependency(%q<yard>, ["~> 0.8.3"])
+    s.add_dependency(%q<redcarpet>, ["~> 2.2.2"])
     s.add_dependency(%q<rdoc>, ["~> 3.12"])
-    s.add_dependency(%q<bundler>, [">= 1.0.0"])
+    s.add_dependency(%q<bundler>, ["~> 1.2.3"])
     s.add_dependency(%q<jeweler>, ["~> 1.8.4"])
-    s.add_dependency(%q<simplecov>, [">= 0"])
-    s.add_dependency(%q<simplecov-rcov>, [">= 0"])
-    s.add_dependency(%q<ci_reporter>, [">= 1.7.0"])
+    s.add_dependency(%q<simplecov>, ["~> 0.7.1"])
+    s.add_dependency(%q<simplecov-rcov>, ["~> 0.2.3"])
+    s.add_dependency(%q<ci_reporter>, ["~> 1.8.3"])
     s.add_dependency(%q<flog>, [">= 3.2.0"])
   end
 end
