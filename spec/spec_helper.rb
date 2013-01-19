@@ -22,13 +22,11 @@ end
 
 module Cawcaw
   CAWCAW_HOME = File.expand_path(File.dirname(__FILE__) + "/..")
-  BIN_DIR = "#{CAWCAW_HOME}/bin"
-  LIB_DIR = "#{CAWCAW_HOME}/lib"
-  RUBY_CMD = "/usr/bin/env ruby -I #{LIB_DIR}"
   REDIRECT = {}
 end
 
 Cawcaw.logger = Logger.new(STDERR)
+ActiveRecord::Base.logger = Cawcaw.logger
 if File.exist?('/tmp/cawcaw.debug') then
   Cawcaw.logger.level = Logger::DEBUG
   Cawcaw::REDIRECT[:stdout] = nil
@@ -38,3 +36,7 @@ else
   Cawcaw::REDIRECT[:stdout] = "> /dev/null"
   Cawcaw::REDIRECT[:stderr] = "2> /dev/null"
 end
+
+class CawcawName < ActiveRecord::Base
+end
+

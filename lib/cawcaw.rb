@@ -1,11 +1,14 @@
+require "rubygems"
 require "logger"
 require "uri"
+require "active_record"
 require "bunnish"
 
 module Cawcaw
 end
 
 require "cawcaw/command/hadoop"
+require "cawcaw/command/postgresql"
 require "cawcaw/command/rabbitmq"
 require "cawcaw/core/common"
 
@@ -18,7 +21,7 @@ module Cawcaw
     if @logger.nil?
       @logger = (rails_logger || default_logger)
       @logger.formatter = proc { |severity, datetime, progname, msg|
-        datetime.strftime("[%Y-%m-%d %H:%M:%S](#{severity})#{msg}\n")
+        datetime.strftime("[%Y-%m-%d %H:%M:%S](#{severity}) #{msg}\n")
       }
     end
     return @logger
