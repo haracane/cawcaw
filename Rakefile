@@ -48,6 +48,15 @@ Rake::RDocTask.new do |rdoc|
   rdoc.rdoc_files.include("lib/**/*.rb")
 end
 
+## YARD
+require "yard"
+require "yard/rake/yardoc_task"
+YARD::Rake::YardocTask.new do |t|
+  t.files   = ["lib/**/*.rb"]
+  t.options = []
+  t.options << "--debug" << "--verbose" if $trace
+end
+
 require "ci/reporter/rake/rspec"     # use this if you're using RSpec
 
 if RUBY_VERSION <= '1.8.7'

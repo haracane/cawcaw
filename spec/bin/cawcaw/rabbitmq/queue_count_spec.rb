@@ -6,7 +6,7 @@ describe "bin/cawcaw rabbitmq queue-count" do
     system("echo \"foo\nbar\nbaz\" | bunnish publish cawcaw-test-queue")
   end
   it "should output rabbitmq queue-count config" do
-    result = `#{Cawcaw::RUBY_CMD} #{Cawcaw::BIN_DIR}/cawcaw rabbitmq queue-count cawcaw-test-queue config`
+    result = `ruby -I lib ./bin/cawcaw rabbitmq queue-count cawcaw-test-queue config`
     hash = {}
     result.split(/\r?\n/).each do |line|
       record = line.split(/ /, 2)
@@ -27,7 +27,7 @@ describe "bin/cawcaw rabbitmq queue-count" do
   end
 
   it "should output rabbitmq queue-count value" do
-    result = `#{Cawcaw::RUBY_CMD} #{Cawcaw::BIN_DIR}/cawcaw rabbitmq queue-count cawcaw-test-queue`
+    result = `ruby -I lib ./bin/cawcaw rabbitmq queue-count cawcaw-test-queue`
     hash = {}
     result.split(/\r?\n/).each do |line|
       record = line.split(/ /, 2)
