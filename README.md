@@ -17,11 +17,20 @@ You can install cawcaw by gem.
 
 ## Usage
 
-### Draw munin graph of Hadoop HDFS size
-    cawcaw hadoop dfs <hdfs-path[,hdfs-path...]> [autoconf|config]
+### Draw munin graph of MySQL table record size
+    cawcaw mysql table [--host host] [--port port]
+                       [--username username] [--password password]
+                       [--database database] [--encoding encoding]
+                       table <table-name[,table-name...]> [autoconf|config]
 
 ### Draw munin graph of PostgreSQL table record size
-    cawcaw postgresql table <table-name[,table-name...]> [autoconf|config]
+    cawcaw postgresql table [--host host] [--port port]
+                            [--username username] [--password password]
+                            [--database database] [--encoding encoding]
+                            table <table-name[,table-name...]> [autoconf|config]
+
+### Draw munin graph of Hadoop HDFS size
+    cawcaw hadoop dfs <hdfs-path[,hdfs-path...]> [autoconf|config]
 
 ### Draw munin graph of RabbitMQ queue message count
     cawcaw rabbitmq queue-count <queue-name[,queue-name...]> [autoconf|config]

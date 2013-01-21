@@ -4,6 +4,8 @@ source "http://rubygems.org"
 #   gem "activesupport", ">= 2.3.5"
 
 gem "activerecord", "~> 3.2.11"
+#gem "activerecord-mysql2-adapter", "~> 0.0.1"
+gem "mysql2", "~> 0.3.11"
 gem "activerecord-postgresql-adapter", "~> 0.0.1"
 gem "bunnish", "~> 0.1.2"
 
