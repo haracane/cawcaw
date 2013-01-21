@@ -5,15 +5,13 @@ module Cawcaw
         module ClassMethods
           def initialize_params(params)
             params[:host] ||= "localhost"
+            params[:adapter_name] ||= params[:adapter]
             
-            params[:graph_title] ||= "#{params[:adapter]} Records"
+            params[:graph_title] ||= "#{params[:adapter_name]} Records"
             params[:graph_args] ||= "--base 1000"
             params[:graph_vlabel] ||= "records"
-            params[:graph_category] ||= params[:adapter]
-            params[:graph_info] ||= "#{params[:adapter]} record size"
-            
-            params[:label_warning] ||=   50000000
-            params[:label_critical] ||= 100000000
+            params[:graph_category] ||= params[:adapter_name]
+            params[:graph_info] ||= "#{params[:adapter_name]} record size"
           end
           
           def get_full_table_paths(table_paths, params)
@@ -27,11 +25,11 @@ module Cawcaw
           def count_table_sizes(full_table_paths, params)
             ActiveRecord::Base.establish_connection(params)
             count_sql = <<-EOF
-  #{
-    full_table_paths.map{|full_table_path|
-      "(select #{ActiveRecord::Base.sanitize(full_table_path)} as full_table_path, count(*) as record_size from #{full_table_path})"
-    }.join(" union ")
-  }
+#{
+  full_table_paths.map{|full_table_path|
+    "(select #{ActiveRecord::Base.sanitize(full_table_path)} as full_table_path, count(*) as record_size from #{full_table_path})"
+  }.join(" union ")
+}
             EOF
             results = ActiveRecord::Base.connection.execute count_sql
           end
@@ -81,9 +79,9 @@ graph_info #{params[:graph_info]}
 #{label}.label #{table_path}
 #{label}.info #{table_path} size
 #{label}.draw #{label_draw}
-#{label}.warning #{params[:label_warning]}
-#{label}.critical #{params[:label_critical]}
-              EOF
+                EOF
+                output_stream.puts "#{label}.warning #{params[:label_warning]}" if params[:label_warning]
+                output_stream.puts "#{label}.critical #{params[:label_critical]}" if params[:label_critical]
                 label_draw = "STACK"
               end
             else
@@ -95,11 +93,11 @@ graph_info #{params[:graph_info]}
               
               table_sizes = {}
               results.each do |record|
-                table_path = record["full_table_path"]
+                table_path = record[0] || record["full_table_path"]
                 if bytes_flag
-                  table_sizes[table_path] = record["byte_size"].to_i
+                  table_sizes[table_path] = (record[2] || record["byte_size"]).to_i
                 else
-                  table_sizes[table_path] = record["record_size"].to_i
+                  table_sizes[table_path] = (record[1] || record["record_size"]).to_i
                 end
               end
               table_paths.each do |table_path|

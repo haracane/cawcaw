@@ -8,12 +8,13 @@ module Cawcaw
           params[:adapter] ||= "postgresql"
           params[:host] ||= "localhost"
           params[:port] ||= 5432
+          params[:adapter_name] ||= params[:adapter]
           
-          params[:graph_title] ||= "#{params[:adapter]} records"
+          params[:graph_title] ||= "#{params[:adapter_name]} records"
           params[:graph_args] ||= "--base 1000"
           params[:graph_vlabel] ||= "records"
-          params[:graph_category] ||= params[:adapter]
-          params[:graph_info] ||= "#{params[:adapter]} record size"
+          params[:graph_category] ||= params[:adapter_name]
+          params[:graph_info] ||= "#{params[:adapter_name]} record size"
         end
         
         def self.get_full_table_paths(table_paths, params)
@@ -21,7 +22,7 @@ module Cawcaw
           table_paths.each do |table_path|
             table_path_pair = table_path.split(/\./)
             if /[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)?/ !~ table_path
-              Cawcaw.logger.error("#{params[:adapter]} table name '#{table_path}' is invalid")
+              Cawcaw.logger.error("#{params[:adapter_name]} table name '#{table_path}' is invalid")
               return nil
             end
             table_name = table_path_pair.pop
