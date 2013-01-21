@@ -14,9 +14,6 @@ module Cawcaw
           params[:graph_vlabel] ||= "records"
           params[:graph_category] ||= params[:adapter]
           params[:graph_info] ||= "#{params[:adapter]} record size"
-          
-          params[:label_warning] ||=   50000000
-          params[:label_critical] ||= 100000000
         end
         
         def self.get_full_table_paths(table_paths, params)

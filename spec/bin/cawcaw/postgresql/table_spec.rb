@@ -41,8 +41,6 @@ describe "bin/cawcaw postgresql table" do
         result.shift.should == ["cawcaw_names.label", "cawcaw_names"]
         result.shift.should == ["cawcaw_names.info", "cawcaw_names size"]
         result.shift.should == ["cawcaw_names.draw", "AREA"]
-        result.shift.should == ["cawcaw_names.warning", "50000000"]
-        result.shift.should == ["cawcaw_names.critical", "100000000"]
       end
     end
   end  
