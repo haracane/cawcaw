@@ -7,6 +7,7 @@ require "bunnish"
 module Cawcaw
 end
 
+require "cawcaw/command/database"
 require "cawcaw/command/hadoop"
 require "cawcaw/command/postgresql"
 require "cawcaw/command/rabbitmq"
