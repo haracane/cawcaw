@@ -16,6 +16,14 @@ module Cawcaw
             params[:label_critical] ||= 100000000
           end
           
+          def get_full_table_paths(table_paths, params)
+            full_table_paths = {}
+            table_paths.each do |table_path|
+              full_table_paths[table_path] = table_path
+            end
+            return full_table_paths
+          end
+          
           def count_table_sizes(full_table_paths, params)
             ActiveRecord::Base.establish_connection(params)
             count_sql = <<-EOF
@@ -80,17 +88,8 @@ graph_info #{params[:graph_info]}
               end
             else
               
-              full_table_paths = {}
-              table_paths.each do |table_path|
-                table_path_pair = table_path.split(/\./)
-                if /[a-z][a-z0-9_]*(\.[a-z][a-z0-9_]*)?/ !~ table_path
-                  Cawcaw.logger.error("#{params[:adapter]} table name '#{table_path}' is invalid")
-                  return 1
-                end
-                table_name = table_path_pair.pop
-                schema_name = table_path_pair.pop || "public"
-                full_table_paths[table_path] = "#{schema_name}.#{table_name}"
-              end
+              full_table_paths = self.get_full_table_paths(table_paths, params)
+              return 1 if full_table_paths.nil?
               
               results = self.count_table_sizes(table_paths.map{|t|full_table_paths[t]}, params)
               
