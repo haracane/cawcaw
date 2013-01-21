@@ -8,6 +8,7 @@ module Cawcaw
 end
 
 require "cawcaw/command/database"
+require "cawcaw/command/mysql"
 require "cawcaw/command/hadoop"
 require "cawcaw/command/postgresql"
 require "cawcaw/command/rabbitmq"
